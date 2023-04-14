@@ -15,7 +15,7 @@ class Post(models.Model):
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
     updated_at = models.DateTimeField("Дата обновления", auto_now=True)
     status = models.CharField("Статус", max_length=2, choices=Status.choices, default=Status.DRAFT)
-    authors = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts", verbose_name="Автор")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts", verbose_name="Автор")
 
     class Meta:
         verbose_name = "Пост"
