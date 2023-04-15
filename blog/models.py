@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.fields import related
 from django.urls import reverse
 from django.utils import timezone
 
@@ -40,3 +41,21 @@ class Post(models.Model):
                                                  self.publish.month,
                                                  self.publish.day,
                                                  self.slug])
+
+
+class Comment(models.Model):
+    post = models.ForeignKey("Post", on_delete=models.CASCADE, related_name="comments", verbose_name="Пост")
+    name = models.CharField("Имя", max_length=80)
+    email = models.EmailField("Email")
+    body = models.TextField(verbose_name="Комментарий к посту")
+    created = models.DateTimeField("Создан", auto_now_add=True, db_index=True)
+    updated = models.DateTimeField("Обновлен", auto_now=True)
+    active = models.BooleanField("Статус", default=True, help_text="Выберите активен / не активен пост.")
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ["created"]
+
+    def __str__(self):
+        return f"Comment by {self.name} on {self.post}"

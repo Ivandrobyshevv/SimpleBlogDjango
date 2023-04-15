@@ -1,3 +1,5 @@
+import email
+
 from django.contrib import admin
 from . import models
 
@@ -5,6 +7,7 @@ from . import models
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'publish', 'status']
+    list_display_links = ['status']
     list_filter = ['status', 'created_at', 'publish', 'author']
     search_fields = ['title', 'body']
     prepopulated_fields = {'slug': ('title',)}
@@ -13,3 +16,9 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ['status', 'publish']
 
 
+@admin.register(models.Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'post', 'created', 'active']
+    list_display_links = ['active']
+    list_filter = ['active', 'created', 'updated']
+    search_fields = ['name', 'email', 'body']
