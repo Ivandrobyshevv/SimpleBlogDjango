@@ -9,7 +9,10 @@ from taggit.managers import TaggableManager
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset() \
-            .filter(status=Post.Status.PUBLISHED)
+            .filter(status=Post.Status.PUBLISHED).select_related("author")
+    # def get_queryset(self):
+    #     return super().get_queryset() \
+    #         .filter(status=Post.Status.PUBLISHED)
 
 
 class Post(models.Model):
